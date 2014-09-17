@@ -1,0 +1,72 @@
+Server Name: smic003 
+Server Net Address: 204.90.41.3
+DT_cs_Client: Starting Test ... 
+Warning: conn_event_wait DAT_CONNECTION_EVENT_PEER_REJECTED
+DT_cs_Client: retrying connection...
+Reposting!!! 2
+Warning: conn_event_wait DAT_CONNECTION_EVENT_PEER_REJECTED
+DT_cs_Client: retrying connection...
+Reposting!!! 2
+Warning: conn_event_wait DAT_CONNECTION_EVENT_PEER_REJECTED
+DT_cs_Client: retrying connection...
+Reposting!!! 2
+Warning: conn_event_wait DAT_CONNECTION_EVENT_PEER_REJECTED
+DT_cs_Client: retrying connection...
+Reposting!!! 2
+Warning: conn_event_wait DAT_CONNECTION_EVENT_PEER_REJECTED
+DT_cs_Client: retrying connection...
+Reposting!!! 2
+Warning: conn_event_wait DAT_CONNECTION_EVENT_PEER_REJECTED
+DT_cs_Client: retrying connection...
+Reposting!!! 2
+Warning: conn_event_wait DAT_CONNECTION_EVENT_PEER_REJECTED
+DT_cs_Client: retrying connection...
+Reposting!!! 2
+Warning: conn_event_wait DAT_CONNECTION_EVENT_PEER_REJECTED
+DT_cs_Client: retrying connection...
+DT_cs_Client: bad connection event
+DT_cs_Client: dat_ep_disconnect (abrupt) error: DAT_INVALID_STATE DAT_INVALID_STATE_EP_UNCONNECTED
+DT_cs_Client: ========== End of Work -- Client Exiting
+Server Name: smic003 
+Server Net Address: 204.90.41.3
+DT_cs_Client: Starting Test ... 
+------------------------- Statistics -------------------------
+    Mode                 : blocking
+    Operation Type       : RW
+    Number of Operations : 100
+    Segment Size         : 409600
+    Number of Segments   : 2 
+    Pipeline Length      : 100
+
+    Total Time           : 0.2 sec
+    Total Data Exchanged : 78.12 MB
+    CPU Utilization      : 0.40
+    Operation Throughput : 4285.95 ops/sec
+    Bandwidth            : 3348.40 MB/sec
+
+Latency
+    Arithmetic mean      : 236.77 us
+    maximum              : 312.0 us
+    minimum              : -1.0 us
+
+Time Per Post
+    100 posts without context switches
+    Arithmetic mean      : 1.30 us
+    maximum              : 19.0 us
+    minimum              : -1.0 us
+
+    0 posts with context switches
+
+Time Per Reap
+    100 reaps without context switches
+    Arithmetic mean      : 230.63 us
+    maximum              : 578.0 us
+    minimum              : -1.0 us
+
+    0 reaps with context switches
+
+NOTE: 1 MB = 1024 KB = 1048576 B 
+---------------------------------------------------------------------
+raw: RW, 100, 409600, 2, 100, 0.40, 4285.95, 3348.40, 236.78, 1.31, 230.62 
+---------------------------------------------------------------------
+DT_cs_Client: ========== End of Work -- Client Exiting

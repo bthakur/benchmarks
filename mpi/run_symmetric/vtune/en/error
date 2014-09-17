@@ -1,0 +1,14 @@
+Copyright (C) 2009-2014 Intel Corporation. All rights reserved.
+Intel(R) VTune(TM) Amplifier XE 2013 (build 353306)
+ -------- 
+ Check if Sampling driver is loaded on host
+pax driver is not loaded.
+sep3_15 driver is not loaded.
+vtsspp driver is not loaded.
+ 
+ -------- 
+Check if Sampling driver is loaded on Phi
+pax driver is not loaded.
+sep3_15 driver is not loaded.
+vtsspp driver is not loaded.
+ 

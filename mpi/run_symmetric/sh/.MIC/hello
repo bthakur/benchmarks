@@ -1,0 +1,3 @@
+#!/bin/sh 
+echo " "
+hostname && env |grep SSH_CONNECTION  && echo is responive !

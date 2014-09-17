@@ -1,0 +1,17 @@
+Server_Cmd.debug:       1
+Server_Cmd.dapl_name: ofa-v2-mlx4_0-1s
+DT_cs_Server: IA ofa-v2-mlx4_0-1s opened
+DT_cs_Server: PZ created
+DT_cs_Server: EP created
+DT_cs_Server: dat_psp_create error: DAT_CONN_QUAL_IN_USE 
+DT_cs_Server: Waiting for clients to all go away...
+DT_cs_Server: Cleaning up ...
+DT_cs_Server: dat_ep_disconnect fails: DAT_INVALID_STATE DAT_INVALID_STATE_EP_UNCONNECTED
+DT_cs_Server: IA ofa-v2-mlx4_0-1s closed
+DT_cs_Server (ofa-v2-mlx4_0-1s):  Exiting.
+Server Name: smic003 
+Server Net Address: 204.90.41.3
+DT_cs_Client: Starting Test ... 
+Warning: conn_event_wait DAT_CONNECTION_EVENT_NON_PEER_REJECTED
+DT_cs_Client: bad connection event
+DT_cs_Client: ========== End of Work -- Client Exiting

@@ -1,0 +1,68 @@
++------------------+
+| Runtime variables|
++------------------+
++------------------+
+| TACC test        |
++------------------+
+This is Stampede, populate list
++------------------+
+| PBS setup        |
++------------------+
+You are not using PBS, Using local hosts and phis !
+`/home1/02567/bthakur/.log/joboutput/00/tmp' -> `/home1/02567/bthakur/.log/joboutput/00/hosts'
+c557-801
+c557-802
+c557-801-mic0
+c557-802-mic0
+| --- Hosts --- |
+c557-801
+c557-802
+| --- Hosts+Phis ---|
+c557-801-mic0
+c557-802-mic0
+c557-801:2
+c557-801-mic0:2
+c557-802:2
+c557-802-mic0:2
++------------------+
+| Setup compilers  |
++------------------+
++----------------------------------+
+| Run on hosts+Phis: Hello World ! |
++----------------------------------+
+(c557-801:0,1)
+(c557-801-mic0:2,3)
+(c557-802:4,5)
+(c557-802-mic0:6,7)
+[0] DAPL startup(): trying to open DAPL provider from I_MPI_DAPL_PROVIDER: ofa-v2-mlx4_0-1u
+[1] DAPL startup(): trying to open DAPL provider from I_MPI_DAPL_PROVIDER: ofa-v2-mlx4_0-1u
+[5] DAPL startup(): trying to open DAPL provider from I_MPI_DAPL_PROVIDER: ofa-v2-mlx4_0-1u
+[4] DAPL startup(): trying to open DAPL provider from I_MPI_DAPL_PROVIDER: ofa-v2-mlx4_0-1u
+[0] MPI startup(): DAPL provider ofa-v2-mlx4_0-1u
+[5] MPI startup(): DAPL provider ofa-v2-mlx4_0-1u
+[1] MPI startup(): DAPL provider ofa-v2-mlx4_0-1u
+[4] MPI startup(): DAPL provider ofa-v2-mlx4_0-1u
+[2] DAPL startup(): trying to open DAPL provider from I_MPI_DAPL_PROVIDER: ofa-v2-mlx4_0-1u
+[6] DAPL startup(): trying to open DAPL provider from I_MPI_DAPL_PROVIDER: ofa-v2-mlx4_0-1u
+[3] DAPL startup(): trying to open DAPL provider from I_MPI_DAPL_PROVIDER: ofa-v2-mlx4_0-1u
+[7] DAPL startup(): trying to open DAPL provider from I_MPI_DAPL_PROVIDER: ofa-v2-mlx4_0-1u
+[7] MPI startup(): DAPL provider ofa-v2-mlx4_0-1u
+[6] MPI startup(): DAPL provider ofa-v2-mlx4_0-1u
+[2] MPI startup(): DAPL provider ofa-v2-mlx4_0-1u
+[3] MPI startup(): DAPL provider ofa-v2-mlx4_0-1u
+[1] MPI startup(): shm and dapl data transfer modes
+[0] MPI startup(): shm and dapl data transfer modes
+[5] MPI startup(): shm and dapl data transfer modes
+[4] MPI startup(): shm and dapl data transfer modes
+[2] MPI startup(): shm and dapl data transfer modes
+[6] MPI startup(): shm and dapl data transfer modes
+[3] MPI startup(): shm and dapl data transfer modes
+[7] MPI startup(): shm and dapl data transfer modes
+           0 c557-801.stampede.tacc.utexas.edu
+           1 c557-801.stampede.tacc.utexas.edu
+           4 c557-802.stampede.tacc.utexas.edu
+           5 c557-802.stampede.tacc.utexas.edu
+           6 c557-802-mic0.stampede.tacc.utexas.edu
+           7 c557-802-mic0.stampede.tacc.utexas.edu
+           2 c557-801-mic0.stampede.tacc.utexas.edu
+           3 c557-801-mic0.stampede.tacc.utexas.edu

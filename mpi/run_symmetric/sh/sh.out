@@ -1,0 +1,70 @@
+`hello' -> `./.MIC//hello'
+mode of `hello' retained as 0755 (rwxr-xr-x)
+mode of `./.MIC//hello' retained as 0755 (rwxr-xr-x)
++-----------------------+
+| Running on 2-hosts    |
+------------------------
+ 
+smic001
+SSH_CONNECTION=204.90.40.21 35551 204.90.41.1 22
+is responive !
+ 
+smic002
+SSH_CONNECTION=204.90.40.21 35551 204.90.41.1 22
+is responive !
++--------------------------+
+| Running on 1-host+2-phis |
+---------------------------
+/usr/local/compilers/Intel/cluster_studio_xe_2013.1.046/composer_xe_2013_sp1.2.144/mpirt/bin/intel64/mpiexec.hydra -n 2 -host smic001 ./hello : -env LD_LIBRARY_PATH /usr/local/compilers/Intel/cluster_studio_xe_2013.1.046/composer_xe_2013_sp1.2.144/compiler/lib/mic:/usr/local/compilers/Intel/cluster_studio_xe_2013.1.046/composer_xe_2013_sp1.2.144/mkl/lib/mic -env I_MPI_PIN_MODE mpd -env I_MPI_PREFIX ./.MIC/ -n 2 -host smic001p-mic0 ./hello : -env LD_LIBRARY_PATH /usr/local/compilers/Intel/cluster_studio_xe_2013.1.046/composer_xe_2013_sp1.2.144/compiler/lib/mic:/usr/local/compilers/Intel/cluster_studio_xe_2013.1.046/composer_xe_2013_sp1.2.144/mkl/lib/mic -env I_MPI_PIN_MODE mpd -env I_MPI_PREFIX ./.MIC/ -n 2 -host smic001p-mic1 ./hello
+ 
+ 
+smic001
+smic001
+SSH_CONNECTION=204.90.40.21 35551 204.90.41.1 22
+SSH_CONNECTION=204.90.40.21 35551 204.90.41.1 22
+is responive !
+is responive !
+ 
+ 
+smic001-mic1
+smic001-mic1
+SSH_CONNECTION=204.90.40.21 35551 204.90.41.1 22
+SSH_CONNECTION=204.90.40.21 35551 204.90.41.1 22
+is responive !
+is responive !
+ 
+ 
+smic001-mic0
+smic001-mic0
+SSH_CONNECTION=204.90.40.21 35551 204.90.41.1 22
+SSH_CONNECTION=204.90.40.21 35551 204.90.41.1 22
+is responive !
+is responive !
++--------------------------+
+| Running on 2-host+4-phis |
+---------------------------
+/usr/local/compilers/Intel/cluster_studio_xe_2013.1.046/composer_xe_2013_sp1.2.144/mpirt/bin/intel64/mpiexec.hydra -n 2 -host smic001,smic003 ./hello : -env LD_LIBRARY_PATH /usr/local/compilers/Intel/cluster_studio_xe_2013.1.046/composer_xe_2013_sp1.2.144/compiler/lib/mic:/usr/local/compilers/Intel/cluster_studio_xe_2013.1.046/composer_xe_2013_sp1.2.144/mkl/lib/mic -env I_MPI_PIN_MODE mpd -env I_MPI_PREFIX ./.MIC/ -n 1 -host smic001p-mic0 ./hello : -env LD_LIBRARY_PATH /usr/local/compilers/Intel/cluster_studio_xe_2013.1.046/composer_xe_2013_sp1.2.144/compiler/lib/mic:/usr/local/compilers/Intel/cluster_studio_xe_2013.1.046/composer_xe_2013_sp1.2.144/mkl/lib/mic -env I_MPI_PIN_MODE mpd -env I_MPI_PREFIX ./.MIC/ -n 1 -host smic001p-mic1 ./hello -n 1 -host smic003 ./hello : -env LD_LIBRARY_PATH /usr/local/compilers/Intel/cluster_studio_xe_2013.1.046/composer_xe_2013_sp1.2.144/compiler/lib/mic:/usr/local/compilers/Intel/cluster_studio_xe_2013.1.046/composer_xe_2013_sp1.2.144/mkl/lib/mic -env I_MPI_PIN_MODE mpd -env I_MPI_PREFIX ./.MIC/ -n 1 -host smic003p-mic0 ./hello : -env LD_LIBRARY_PATH /usr/local/compilers/Intel/cluster_studio_xe_2013.1.046/composer_xe_2013_sp1.2.144/compiler/lib/mic:/usr/local/compilers/Intel/cluster_studio_xe_2013.1.046/composer_xe_2013_sp1.2.144/mkl/lib/mic -env I_MPI_PIN_MODE mpd -env I_MPI_PREFIX ./.MIC/ -n 1 -host smic003p-mic1 ./hello
+ 
+smic001
+SSH_CONNECTION=204.90.40.21 35551 204.90.41.1 22
+is responive !
+ 
+ 
+smic003p-mic0
+smic003p-mic1
+SSH_CONNECTION=204.90.40.21 35551 204.90.41.1 22
+is responive !
+SSH_CONNECTION=204.90.40.21 35551 204.90.41.1 22
+is responive !
+ 
+ 
+smic001-mic0
+smic001-mic1
+SSH_CONNECTION=204.90.40.21 35551 204.90.41.1 22
+SSH_CONNECTION=204.90.40.21 35551 204.90.41.1 22
+is responive !
+is responive !
+ 
+smic003
+SSH_CONNECTION=204.90.40.21 35551 204.90.41.1 22
+is responive !

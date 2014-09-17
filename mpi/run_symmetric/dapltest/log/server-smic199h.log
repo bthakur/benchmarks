@@ -1,0 +1,52 @@
+Server_Cmd.debug:       1
+Server_Cmd.dapl_name: ofa-v2-ib0
+DT_cs_Server: IA ofa-v2-ib0 opened
+DT_cs_Server: PZ created
+DT_cs_Server: EP created
+DT_cs_Server: PSP created
+*****  DAPL  Characteristics  *****
+Provider: ofa-v2-ib0  Version 2.0  DAPL 2.0
+Adapter: mlx4_0 by  Version 1.0
+Supporting:
+	425848 EPs with 16351 DTOs and 16 RDMA/RDs each
+	65408 EVDs of up to 4194303 entries  (default S/R size is 16/16)
+	IOVs of up to 32 elements
+	524032 LMRs (and 0 RMRs) of up to 0xffffffff bytes
+	Maximum MTU 0x40000000 bytes, RDMA 0x40000000 bytes
+	Maximum Private data size 256 bytes
+	Local IP address 172.17.41.199
+***** ***** ***** ***** ***** *****
+DT_cs_Server: Posting 2 recvs
+Dapltest: Service Point Ready - ofa-v2-ib0
+DT_cs_Server: Waiting for Connection Request
+DT_cs_Server: Accepting Connection Request
+DT_cs_Server: Awaiting connection ...
+DT_cs_Server: Connected!
+DAT_STATE: DAT_EP_STATE_CONNECTED
+DAT_STATE: Inbound DTO Status: Idle 
+DAT_STATE: Outbound DTO Status: Active
+DT_cs_Server: Waiting for Client_Info
+DT_cs_Server: Got Client_Info
+DT_cs_Server: Waiting for Client_Cmd_Info
+DT_cs_Server: Send Server_Info
+DT_cs_Server: Creating Performance Test Thread
+DT_cs_Server: Starting Test Thread
+DT_cs_Server: Version OK!
+Server: Starting performance test
+Server[f231]: Listen on PSP port 0xf231
+DT_cs_Server: Send Server_Info
+DT_cs_Server: Waiting for another client...
+*****  DAPL  Characteristics  *****
+Provider: ofa-v2-ib0  Version 2.0  DAPL 2.0
+Adapter: mlx4_0 by  Version 1.0
+Supporting:
+	425848 EPs with 16351 DTOs and 16 RDMA/RDs each
+	65408 EVDs of up to 4194303 entries  (default S/R size is 16/16)
+	IOVs of up to 32 elements
+	524032 LMRs (and 0 RMRs) of up to 0xffffffff bytes
+	Maximum MTU 0x40000000 bytes, RDMA 0x40000000 bytes
+	Maximum Private data size 256 bytes
+	Local IP address 172.17.41.199
+***** ***** ***** ***** ***** *****
+DT_cs_Server: Posting 2 recvs
+Dapltest: Service Point Ready - ofa-v2-ib0

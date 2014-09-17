@@ -1,0 +1,188 @@
+[root@smic010 f90]# which dapltest
+/usr/bin/dapltest
+[root@smic010 f90]# rpm -qf /usr/bin/dapltest
+dapl-utils-2.0.42.2-1.el6.x86_64
+\e[5m 
+[root@smic010 f90]# dapltest -T T -d -s 172.17.40.32 -D ofa-v2-ib0 -i 1 client SR 4096 2 server SR 4096 2-------------------------------------
+\e[25m
+TransCmd.server_name              : 172.17.40.32
+TransCmd.server_port_number       : 62000
+TransCmd.num_iterations           : 1
+TransCmd.num_threads              : 1
+TransCmd.eps_per_thread           : 1
+TransCmd.validate                 : 0
+TransCmd.dapl_name                : ofa-v2-ib0
+TransCmd.num_ops                  : 2
+TransCmd.op[0].transfer_type      : SEND_RECV  (client)
+TransCmd.op[0].seg_size           : 4096
+TransCmd.op[0].num_segs           : 2
+TransCmd.op[0].reap_send_on_recv  : 0
+TransCmd.op[1].transfer_type      : SEND_RECV  (server)
+TransCmd.op[1].seg_size           : 4096
+TransCmd.op[1].num_segs           : 2
+TransCmd.op[1].reap_send_on_recv  : 0
+Server Name: 172.17.40.32 
+Server Net Address: 172.17.40.32
+DT_cs_Client: Starting Test ... 
+DT_cs_Client: IA ofa-v2-ib0 opened
+DT_cs_Client: EP created
+*****  DAPL  Characteristics  *****
+Provider: ofa-v2-ib0  Version 2.0  DAPL 2.0
+Adapter: mlx4_0 by  Version 1.0
+Supporting:
+	425848 EPs with 16351 DTOs and 16 RDMA/RDs each
+	65408 EVDs of up to 4194303 entries  (default S/R size is 16/16)
+	IOVs of up to 32 elements
+	524032 LMRs (and 0 RMRs) of up to 0xffffffff bytes
+	Maximum MTU 0x40000000 bytes, RDMA 0x40000000 bytes
+	Maximum Private data size 256 bytes
+	Local IP address 172.17.41.10
+***** ***** ***** ***** ***** *****
+DT_cs_Client: Posting 1 recv buffer
+DT_cs_Client: Connect Endpoint
+DT_cs_Client: Await connection ...
+Warning: conn_event_wait DAT_CONNECTION_EVENT_PEER_REJECTED
+DT_cs_Client: retrying connection...
+Reposting!!! 2
+DT_cs_Client: Connect Endpoint
+DT_cs_Client: Await connection ...
+Warning: conn_event_wait DAT_CONNECTION_EVENT_PEER_REJECTED
+DT_cs_Client: retrying connection...
+Reposting!!! 2
+DT_cs_Client: Connect Endpoint
+DT_cs_Client: Await connection ...
+Warning: conn_event_wait DAT_CONNECTION_EVENT_PEER_REJECTED
+DT_cs_Client: retrying connection...
+Reposting!!! 2
+DT_cs_Client: Connect Endpoint
+DT_cs_Client: Await connection ...
+Warning: conn_event_wait DAT_CONNECTION_EVENT_PEER_REJECTED
+DT_cs_Client: retrying connection...
+Reposting!!! 2
+DT_cs_Client: Connect Endpoint
+DT_cs_Client: Await connection ...
+Warning: conn_event_wait DAT_CONNECTION_EVENT_PEER_REJECTED
+DT_cs_Client: retrying connection...
+Reposting!!! 2
+DT_cs_Client: Connect Endpoint
+DT_cs_Client: Await connection ...
+Warning: conn_event_wait DAT_CONNECTION_EVENT_PEER_REJECTED
+DT_cs_Client: retrying connection...
+Reposting!!! 2
+DT_cs_Client: Connect Endpoint
+DT_cs_Client: Await connection ...
+Warning: conn_event_wait DAT_CONNECTION_EVENT_PEER_REJECTED
+DT_cs_Client: retrying connection...
+Reposting!!! 2
+DT_cs_Client: Connect Endpoint
+DT_cs_Client: Await connection ...
+Warning: conn_event_wait DAT_CONNECTION_EVENT_PEER_REJECTED
+DT_cs_Client: retrying connection...
+DT_cs_Client: bad connection event
+DT_cs_Client: Cleaning Up ...
+DT_cs_Client: dat_ep_disconnect (abrupt) error: DAT_INVALID_STATE DAT_INVALID_STATE_EP_UNCONNECTED
+DT_cs_Client: IA ofa-v2-ib0 closed
+DT_cs_Client: ========== End of Work -- Client Exiting
+[root@smic010 f90]# /usr/local/packages/trash/packages/dapl/2.0.40/bin/dapltest -T T -d -s 172.17.40.32 -D ofa-v2-ib0 -i 1 client SR 4096 2 server SR 4096 2
+-------------------------------------
+TransCmd.server_name              : 172.17.40.32
+TransCmd.server_port_number       : 45278
+TransCmd.num_iterations           : 1
+TransCmd.num_threads              : 1
+TransCmd.eps_per_thread           : 1
+TransCmd.validate                 : 0
+TransCmd.dapl_name                : ofa-v2-ib0
+TransCmd.num_ops                  : 2
+TransCmd.op[0].transfer_type      : SEND_RECV  (client)
+TransCmd.op[0].seg_size           : 4096
+TransCmd.op[0].num_segs           : 2
+TransCmd.op[0].reap_send_on_recv  : 0
+TransCmd.op[1].transfer_type      : SEND_RECV  (server)
+TransCmd.op[1].seg_size           : 4096
+TransCmd.op[1].num_segs           : 2
+TransCmd.op[1].reap_send_on_recv  : 0
+Server Name: 172.17.40.32 
+Server Net Address: 172.17.40.32
+DT_cs_Client: Starting Test ... 
+DT_cs_Client: IA ofa-v2-ib0 opened
+DT_cs_Client: EP created
+*****  DAPL  Characteristics  *****
+Provider: ofa-v2-ib0  Version 2.0  DAPL 2.0
+Adapter: mlx4_0 by  Version 1.0
+Supporting:
+	425848 EPs with 16351 DTOs and 16 RDMA/RDs each
+	65408 EVDs of up to 4194303 entries  (default S/R size is 16/16)
+	IOVs of up to 32 elements
+	524032 LMRs (and 0 RMRs) of up to 0xffffffff bytes
+	Maximum MTU 0x40000000 bytes, RDMA 0x40000000 bytes
+	Maximum Private data size 256 bytes
+	Local IP address 172.17.41.10
+***** ***** ***** ***** ***** *****
+DT_cs_Client: Posting 1 recv buffer
+DT_cs_Client: Connect Endpoint
+DT_cs_Client: Await connection ...
+DT_cs_Client: Connected!
+DAT_STATE: DAT_EP_STATE_CONNECTED
+DAT_STATE: Inbound DTO Status: Idle 
+DAT_STATE: Outbound DTO Status: Active
+DT_cs_Client: Sending Client_Info
+DT_cs_Client: Sent Client_Info - awaiting completion
+DT_cs_Client: Sending Command
+DT_cs_Client: Sent Command - awaiting completion
+DT_cs_Client: Waiting for Server_Info
+DT_cs_Client: Server_Info Received
+DT_cs_Client: Version OK!
+-------------------------------------
+Server_Info.dapltest_version   : 6
+Server_Info.is_little_endian   : 1
+-------------------------------------
+Client_Info.dapltest_version   : 6
+Client_Info.is_little_endian   : 1
+Client_Info.test_type          : 1
+-------------------------------------
+TransCmd.server_name              : 172.17.40.32
+TransCmd.num_iterations           : 1
+TransCmd.num_threads              : 1
+TransCmd.eps_per_thread           : 1
+TransCmd.validate                 : 0
+TransCmd.dapl_name                : ofa-v2-ib0
+TransCmd.num_ops                  : 2
+TransCmd.op[0].transfer_type      : SEND_RECV  (client)
+TransCmd.op[0].seg_size           : 4096
+TransCmd.op[0].num_segs           : 2
+TransCmd.op[0].reap_send_on_recv  : 0
+TransCmd.op[1].transfer_type      : SEND_RECV  (server)
+TransCmd.op[1].seg_size           : 4096
+TransCmd.op[1].num_segs           : 2
+TransCmd.op[1].reap_send_on_recv  : 0
+Client: Starting Client side of test
+Client[b0e2]: Connect #0 on port 0xb0e2
+Client[b0e2]: Got Connection #0
+Test[b0e2]: Sending Client Memory Info
+Test[b0e2]: Waiting for Server Memory Info
+Test[b0e2]: Memory Info received 
+-------------------------------------
+TransTest.is_server              : 0
+TransTest.remote_little_endian   : 1
+TransTest.base_port              : b0e2
+TransTest.pz_handle              : 0x2b09ac0008c0
+TransTest.bytes_send             : 0
+TransTest.bytes_recv             : 0
+TransTest.bytes_rdma_read        : 0
+TransTest.bytes_rdma_write       : 0
+Test[b0e2]: Synchronize with the other side
+Test[b0e2]: Wait for Sync Message
+Received Sync Message from server (0 left)
+Test[b0e2]: Send Sync Msg
+Test[b0e2]: Begin...
+iteration: 0
+Test[b0e2]: postsend [0] 
+Test[b0e2]: RecvWait and Re-Post [1] 
+Test[b0e2]: End Successfully
+Test[b0e2]: cleanup is done
+----- Test completed successfully, but cannot calculate stats as not
+----- enough time has lapsed.
+----- Try running the test with more iterations.
+DT_cs_Client: Cleaning Up ...
+DT_cs_Client: IA ofa-v2-ib0 closed
+DT_cs_Client: ========== End of Work -- Client Exiting

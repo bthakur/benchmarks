@@ -1,0 +1,130 @@
++------------------+
+| PBS setup        |
++------------------+
+  PBS Environment       PBS_INTERACTIVE
+  PBS Number of Nodes   2
+  PBS Procs per Node    20
+smic004
+smic005
+smic004p-mic0
+smic004p-mic1
+smic005p-mic0
+smic005p-mic1
++------------------+
+| Setup compilers  |
++------------------+
+/usr/local/compilers/Intel/cluster_studio_xe_2013.1.046/composer_xe_2013_sp1.2.144/compiler/lib/mic:/usr/local/compilers/Intel/cluster_studio_xe_2013.1.046/composer_xe_2013_sp1.2.144/compiler/lib/mic:/usr/local/compilers/Intel/cluster_studio_xe_2013.1.046/composer_xe_2013_sp1.2.144/mkl/lib/mic
++------------------+
+| Setup MIC envir. |
++------------------+
++-----------------------+
+| Compile code for host |
++-----------------------+
++---------------------------+
+| Compile code for Xeon Phi |
++---------------------------+
++---------------------+
+| Running on hosts    |
++----------------------
+           1 smic004
+           0 smic004
+   Reduction        Size       Units       Check    WallTime    BW(Gbps)
+   Reduction           4  onlybytes   Success       0.000029    0.001100
+   Reduction           8  onlybytes   Success       0.000003    0.020649
+   Reduction          16  onlybytes   Success       0.000001    0.134218
+   Reduction          32  onlybytes   Success       0.000002    0.134218
+   Reduction          64  onlybytes   Success       0.000001    0.536871
+   Reduction         128  onlybytes   Success       0.000001    1.073742
+   Reduction         256  onlybytes   Success       0.000001    1.717987
+   Reduction         512  onlybytes   Success       0.000001    4.294967
+   Reduction        1024  onlybytes   Success       0.000001    8.589935
+   Reduction        2048  onlybytes   Success       0.000002    8.589935
+   Reduction           4  kilobytes   Success       0.000002   17.179869
+   Reduction           8  kilobytes   Success       0.000007    9.478549
+   Reduction          16  kilobytes   Success       0.000007   18.325194
+   Reduction          32  kilobytes   Success       0.000010   26.178848
+   Reduction          64  kilobytes   Success       0.000017   30.541990
+   Reduction         128  kilobytes   Success       0.000027   38.920766
+   Reduction         256  kilobytes   Success       0.000051   41.103238
+   Reduction         512  kilobytes   Success       0.000097   43.224044
+   Reduction        1024  kilobytes   Success       0.000189   44.424712
+   Reduction        2048  kilobytes   Success       0.000520   32.264440
+   Reduction           4  megabytes   Success       0.001092   30.722001
+   Reduction           8  megabytes   Success       0.001639   40.947771
+   Reduction          16  megabytes   Success       0.003976   33.758093
+   Reduction          32  megabytes   Success       0.009485   28.301031
+   Reduction          64  megabytes   Success       0.019004   28.250258
+   Reduction         128  megabytes   Success       0.038443   27.930686
+   Reduction         256  megabytes   Success       0.075234   28.543992
+   Reduction         512  megabytes   Success       0.150345   28.567439
+   Reduction        1024  megabytes   Success       0.304918   28.171311
+           8 smic004
+           9 smic004
+          10 smic004
+          16 smic004
+          18 smic004
+           0 smic004
+           1 smic004
+           2 smic004
+           3 smic004
+           4 smic004
+           5 smic004
+           6 smic004
+           7 smic004
+          11 smic004
+          12 smic004
+          13 smic004
+          14 smic004
+          15 smic004
+          17 smic004
+          19 smic004
+   Reduction        Size       Units       Check    WallTime    BW(Gbps)
+          20 smic005
+          21 smic005
+          22 smic005
+          23 smic005
+          29 smic005
+          30 smic005
+          32 smic005
+          37 smic005
+          24 smic005
+          25 smic005
+          26 smic005
+          27 smic005
+          28 smic005
+          31 smic005
+          33 smic005
+          35 smic005
+          36 smic005
+          38 smic005
+          39 smic005
+          34 smic005
+   Reduction           4  onlybytes   Success       0.001887    0.000017
+   Reduction           8  onlybytes   Success       0.000005    0.012783
+   Reduction          16  onlybytes   Success       0.000007    0.017896
+   Reduction          32  onlybytes   Success       0.000006    0.042950
+   Reduction          64  onlybytes   Success       0.000003    0.165191
+   Reduction         128  onlybytes   Success       0.000004    0.268435
+   Reduction         256  onlybytes   Success       0.000005    0.409045
+   Reduction         512  onlybytes   Success       0.000003    1.431656
+   Reduction        1024  onlybytes   Success       0.000004    2.021161
+   Reduction        2048  onlybytes   Success       0.000003    5.286114
+   Reduction           4  kilobytes   Success       0.000004    8.084644
+   Reduction           8  kilobytes   Success       0.000005   13.089424
+   Reduction          16  kilobytes   Success       0.000006   21.144454
+   Reduction          32  kilobytes   Success       0.000010   26.178848
+   Reduction          64  kilobytes   Success       0.000016   32.821243
+   Reduction         128  kilobytes   Success       0.000028   37.590141
+   Reduction         256  kilobytes   Success       0.000052   40.349051
+   Reduction         512  kilobytes   Success       0.000106   39.533002
+   Reduction        1024  kilobytes   Success       0.000509   16.479800
+   Reduction        2048  kilobytes   Success       0.001446   11.602431
+   Reduction           4  megabytes   Success       0.003117   10.765508
+   Reduction           8  megabytes   Success       0.005019   13.371098
+   Reduction          16  megabytes   Success       0.008463   15.859532
+   Reduction          32  megabytes   Success       0.015173   17.691424
+   Reduction          64  megabytes   Success       0.034568   15.530832
+   Reduction         128  megabytes   Success       0.064403   16.672218
+   Reduction         256  megabytes   Success       0.126426   16.986094
+   Reduction         512  megabytes   Success       0.254348   16.886198
+   Reduction        1024  megabytes   Success       0.500287   17.170020

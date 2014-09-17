@@ -1,0 +1,43 @@
+Server Name: smic005h 
+Server Net Address: 172.17.41.5
+DT_cs_Client: Starting Test ... 
+------------------------- Statistics -------------------------
+    Mode                 : blocking
+    Operation Type       : RW
+    Number of Operations : 1000
+    Segment Size         : 409600
+    Number of Segments   : 2 
+    Pipeline Length      : 1000
+
+    Total Time           : 0.12 sec
+    Total Data Exchanged : 781.25 MB
+    CPU Utilization      : 0.38
+    Operation Throughput : 7767.17 ops/sec
+    Bandwidth            : 6068.10 MB/sec
+
+Latency
+    Arithmetic mean      : 131.74 us
+    maximum              : 150.0 us
+    minimum              : -1.0 us
+
+Time Per Post
+    1000 posts without context switches
+    Arithmetic mean      : 0.11 us
+    maximum              : 2.0 us
+    minimum              : -1.0 us
+
+    0 posts with context switches
+
+Time Per Reap
+    1000 reaps without context switches
+    Arithmetic mean      : 128.47 us
+    maximum              : 158.0 us
+    minimum              : -1.0 us
+
+    0 reaps with context switches
+
+NOTE: 1 MB = 1024 KB = 1048576 B 
+---------------------------------------------------------------------
+raw: RW, 1000, 409600, 2, 1000, 0.38, 7767.17, 6068.10, 131.74, 0.11, 128.47 
+---------------------------------------------------------------------
+DT_cs_Client: ========== End of Work -- Client Exiting

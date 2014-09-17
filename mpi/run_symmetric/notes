@@ -1,0 +1,101 @@
+
+-d mlx4_0 issue:
+================
+mlx4_0 is not the default device
+ibv_devices 
+    device          	   node GUID
+    ------          	----------------
+    scif0           	4c79bafffe4001ed
+    mlx4_0          	0002c9030018ee40
+
+intel mpi doesnt get it unless u pass adapter 
+https://software.intel.com/en-us/forums/topic/392341
+ib_read_bw doesnt get it either!
+
+mvapich2 now needs MV2_IBA_HCA=mlx4_0 to work
+
+dapl notes:
+===========
+
+Provider descriptions and PROS/CONS (cma, scm, ucm)
+---------------------------------------------------
+
+1. CMA - uses OFA rdma_cm to setup QP's. IPoIB, ARP, and SA queries required.
+	Provider name: ofa-v2-ib0
+	PROs:	OFA rdma_cm has the most testing across many applications.
+		Supports both iWARP and IB.
+	CONs:	Serialization of conn processing with kernel based CM service
+		Requires IPoIB ARP for name resolution, storms
+		Requires SA for path record queries for IB fabrics.
+		Conn Request private data limited to 52 bytes.
+	Settings for larger clusters (512+ cores):
+	setenv DAPL_CM_ROUTE_TIMEOUT_MS 20000
+	setenv DAPL_CM_ARP_TIMEOUT_MS 10000
+2. SCM - uses sockets to exchange QP information. IPoIB, ARP, and SA queries NOT required.
+	Provider name (connectx): ofa-v2-mlx4_0-1
+	PROs:	Each rank has own instance of socket cm. More private data with requests. 
+		Doesn't require path-record lookup.   	
+	CONs:	Socket resources grow with scale-out, serialization of
+		connections with kernel based tcp sockets, 
+		Competes for MPI socket resources/port space and other TCP applications. 
+		Sockets remain in TIMEWAIT state for minutes after closure. 
+		Requires ARP for name resolution.
+		Doesn't support iWARP devices.
+	Settings for larger clusters (512+ cores):
+	setenv DAPL_ACK_RETRY 7         /* IB RC Ack retry count */
+	setenv DAPL_ACK_TIMER 20        /* IB RC Ack retry timer */
+3. UCM - use's IB UD QP to exchange QP info. Sockets, ARP, IPoIB, and SA queries NOT required.       
+	Provider name (connectx): ofa-v2-mlx4_0-1u
+	PROs:	Each rank has own instance of CM in user process 
+		Resources fixed per rank regardless of scale-out size
+		No serialization of user or kernel resources establishing connections, 
+		Simple 3-way msg handsake, CM messages fit in inline data for lowest message latency,
+		Supports alternate paths
+		No address resolution required. 
+		No path resolution required.
+	CONs:	New provider with limited testing, a little tougher to debug. 
+		Doesn't support iWARP	
+	Settings for larger clusters (512+ cores):
+	setenv DAPL_UCM_REP_TIME 2000   /* REQUEST timer, waiting for REPLY in millisecs */
+	setenv DAPL_UCM_RTU_TIME 2000   /* REPLY timer, waiting for RTU in millisecs */
+	setenv DAPL_UCM_CQ_SIZE  2000   /* CM completion queue */
+	setenv DAPL_UCM_QP_SIZE  2000   /* CM message queue */
+	setenv DAPL_UCM_RETRY 7         /* REQUEST and REPLY retries */
+	setenv DAPL_ACK_RETRY 7         /* IB RC Ack retry count */
+	setenv DAPL_ACK_TIMER 20        /* IB RC Ack retry timer */
+
+	CM Performance: CPS profile for cma, scm, and ucm v2 uDAPL providers:
+	-----------------------------------------------------------------------
+	Intel SR1600 Servers with Xeon(R) CPU X5570  @ 2.93GHz
+	Urbanna Platform  - 2 node, 8 cores per node, Mellanox MLX4 IB QDR, no switch.
+
+	dtestcm (server/client):
+
+	cma: Connections: 183.21 usec, CPS 5458.31 Total 0.18 secs, poll_cnt=3403, Num=1000
+	scm: Connections: 178.80 usec, CPS 5592.93 Total 0.18 secs, poll_cnt=2344, Num=1000
+	ucm: Connections: 122.43 usec, CPS 8167.93 Total 0.12 secs, poll_cnt=2609, Num=1000
+
+	dapl_cm_bw: MPI uDAPL/CM profiling application (all-to-all connections, all ranks)
+
+	CMA
+	2  Connect times (10):   Total 0.0020 per 0.0002 CPS=4997.98
+	4  Connect times (40):   Total 0.0077 per 0.0002 CPS=5224.59
+	8  Connect times (240):  Total 0.0276 per 0.0001 CPS=8710.76
+	16 Connect times (1120): Total 0.1194 per 0.0001 CPS=9379.37
+	32 Connect times (4800): Total 6.1949 per 0.0013 CPS=774.83
+
+	SCM
+	2  Connect times (10):   Total 0.0024 per 0.0002 CPS=4103.61
+	4  Connect times (40):   Total 0.0060 per 0.0002 CPS=6622.41
+	8  Connect times (240):  Total 0.0206 per 0.0001 CPS=11634.15
+	16 Connect times (1120): Total 9.0118 per 0.0080 CPS=124.28
+	32 Connect times (4800): Total 21.0198 per 0.0044 CPS=228.36
+
+	UCM
+	2  Connect times (10):   Total 0.0014 per 0.0001 CPS=7353.27
+	4  Connect times (40):   Total 0.0045 per 0.0001 CPS=8816.19
+	8  Connect times (240):  Total 0.0191 per 0.0001 CPS=12582.44
+	16 Connect times (1120): Total 0.0799 per 0.0001 CPS=14017.68
+	32 Connect times (4800): Total 0.3337 per 0.0001 CPS=14385.21
+
+

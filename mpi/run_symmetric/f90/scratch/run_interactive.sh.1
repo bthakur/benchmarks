@@ -1,0 +1,353 @@
+#!/bin/sh
+
+echo "+------------------+"
+echo "| PBS setup        |"
+echo "+------------------+"
+
+export PBS_JOBID=100
+export PBS_NUM_NODES=2
+export PBS_NUM_PPN=20
+export PBS_NODEFILE=hosts
+
+echo "  PBS Environment       $PBS_ENVIRONMENT"
+echo "  PBS Number of Nodes   $PBS_NUM_NODES"
+echo "  PBS Procs per Node    $PBS_NUM_PPN"
+
+  #Check non-null
+  if [ ! -n "$PBS_JOBID" ]; then
+    echo "You are not using PBS, exiting !"
+    exit
+  fi
+
+  PbsLogs="$HOME/.log/joboutput/$PBS_JOBID"
+  #PbsLogs=`pwd`
+  PbsHosts="$PbsLogs/hosts"
+  PbsPhis="$PbsLogs/phis"
+  
+  if [ ! -d "$PbsLogs" ]; then
+    mkdir -p $PbsLogs
+  fi
+
+  if [ -e "$PbsHosts" ]; then
+    rm "$PbsHosts"
+  fi
+    cat $PBS_NODEFILE|uniq > $PbsHosts
+
+
+  if [ -e "$PbsPhis" ]; then
+    rm "$PbsPhis"
+  fi
+  touch "$PbsPhis"
+  for f in $(cat $PbsHosts); do
+    echo "${f}p-mic0" >> "$PbsPhis"
+    echo "${f}p-mic1" >> "$PbsPhis"
+  done  
+
+  cat $PbsHosts
+  cat $PbsPhis
+  
+  ahost=$(head -1 $PbsHosts)
+  bhost=$(tail -1 $PbsHosts)
+  aphi=$(head -1 $PbsPhis)
+  bphi=$(tail -1 $PbsPhis)
+  
+echo "+------------------+"
+echo "| Setup compilers  |"
+echo "+------------------+"
+
+export MIC_ENV_PREFIX=MIC
+INTEL_TOP="/usr/local/compilers/Intel"
+CODE_TOP="/home/$USER/run_symmetric/f90"
+
+
+INTEL_COMPILER_VER="cluster_studio_xe_2013.1.046/composer_xe_2013_sp1.2.144"
+INTEL_MPI_VER="cluster_studio_xe_2013.1.046/impi/4.1.3.048"
+INTEL_MKL_VER="cluster_studio_xe_2013.1.046/composer_xe_2013_sp1.2.144/mkl"
+
+COMPILER_HOME="$INTEL_TOP/$INTEL_COMPILER_VER"
+MPI_HOME="$INTEL_TOP/$INTEL_MPI_VER"
+MKL_HOME="$INTEL_TOP/$INTEL_MKL_VER"
+
+export PATH=$COMPILER_HOME/bin/intel64:$PATH
+export MIC_PATH=$COMPILER_HOME/intel64_mic:$PATH
+
+export LD_LIBRARY_PATH=$COMPILER_HOME/compiler/lib/intel64:$LD_LIBRARY_PATH
+export MIC_LD_LIBRARY_PATH=$COMPILER_HOME/compiler/lib/mic:$MIC_LD_LIBRARY_PATH
+
+export LD_INCLUDE_PATH=$COMPILER_HOME/compiler/include/intel64:$LD_INCLUDE_PATH
+export MIC_LD_INCLUDE_PATH=$COMPILER_HOME/compiler/include/mic:$MIC_LD_INCLUDE_PATH
+
+echo $MIC_LD_LIBRARY_PATH
+
+echo "+------------------+"
+echo "| Setup MIC envir. |"
+echo "+------------------+"
+
+# Check them using mpiifort -h
+export I_MPI_ROOT=$MPI_HOME
+
+# OR DO this instead
+#source /usr/local/compilers/Intel/$INTEL_VER/bin/compilervars.sh intel64
+source /usr/local/compilers/Intel/cluster_studio_xe_2013.1.046/impi/4.1.3.048/bin64/mpivars.sh
+
+#MPI_FC=/usr/local/compilers/Intel/cluster_studio_xe_2013.1.046/impi/4.1.3.048/intel64/bin/mpif90
+#MPIEXEC=/usr/local/compilers/Intel/cluster_studio_xe_2013.1.046/composer_xe_2013_sp1.2.144/mpirt/bin/intel64/mpiexec.hydra
+
+
+export MPI_FC=$MPI_HOME/bin64/mpiifort
+export MPI_RUN=$MPI_HOME/bin64/mpiexec.hydra
+export MPI_RUN_PHI=$MPI_HOME/mic/bin/mpiexec.hydra
+
+export I_MPI_MIC=1
+export I_MPI_MIC_ENABLE="enable"
+envhost0="-genv I_MPI_DEBUG 2 -env I_MPI_FABRICS shm:dapl"
+envhost1="-genv I_MPI_DEBUG 2 -env I_MPI_FABRICS shm:ofa"
+envhost2="-genv I_MPI_DEBUG 2 -env I_MPI_FABRICS shm:tcp"
+envhost3="-genv I_MPI_DEBUG 2 -env I_MPI_DAPL_PROVIDER_LIST=ofa-v2-mlx4_0-1u,ofa-v2-scif0,ofa-v2-mcm-1"
+
+
+envphi0="-env LD_LIBRARY_PATH $MIC_LD_LIBRARY_PATH -env I_MPI_FABRICS shm:dapl"
+envphi1="-env LD_LIBRARY_PATH $MIC_LD_LIBRARY_PATH -env I_MPI_FABRICS shm:ofa"
+envphi2="-env LD_LIBRARY_PATH $MIC_LD_LIBRARY_PATH -env I_MPI_FABRICS shm:tcp"
+envphi3="-genv I_MPI_DEBUG 2 -env I_MPI_DAPL_PROVIDER_LIST=ofa-v2-mlx4_0-1u,ofa-v2-scif0,ofa-v2-mcm-1"
+
+
+#ssh smic002p-mic0 "printenv; echo ' '; export PATH=$MIC_PATH;export LD_LIBRARY_PATH=$MIC_LD_LIBRARY_PATH;  printenv"
+#ssh smic002p-mic0
+#exit
+
+echo "+-----------------------+"
+echo "| Compile code for host |"
+echo "+-----------------------+"
+
+    #which ifort
+    #comm_compile_host="$MPI_FC -fc=ifort \
+    #                   -g -traceback -C 
+    #                   $CODE_TOP/hello_mpi.f90 -o $CODE_TOP/hello"
+    #echo "$comm_compile_host"
+    #$MPI_FC -fc=ifort $CODE_TOP/hello_mpi.f90 -g -traceback -C -o $CODE_TOP/hello
+    #$mpf90  -fc=ifort hello_mpi.f90 -g -traceback -C -o $top/hello
+    #$comm_compile_host
+    #ldd $CODE_TOP/hello
+    #sleep 2; wait
+    #exit 
+ 
+echo "+---------------------------+"
+echo "| Compile code for Xeon Phi |"
+echo "+---------------------------+"
+
+    #comm_compile_phi="$MPI_FC -fc=ifort -mmic $CODE_TOP/hello_mpi.f90 -g -traceback -C -o $CODE_TOP/hello.mic"
+    #$MPI_FC -fc=ifort -mmic $CODE_TOP/hello_mpi.f90 -g -traceback -C -o $CODE_TOP/hello.mic
+    #$comm_compile_phi
+    #sleep 2; wait
+    #ssh $aphi ldd $CODE_TOP/hello.mic
+
+echo "+---------------------+"
+echo "| Running on hosts    |"
+echo "+----------------------"
+    export I_MPI_DEBUG=2
+    #$MPI_RUN $envhost2 -n $PBS_NP -hostfile $PbsHosts $CODE_TOP/hello
+    #$MPI_RUN  -n $PBS_NP -hostfile $PbsHosts $CODE_TOP/hello
+
+    #sleep 2; wait
+    #exit
+echo "+------------------------------+"
+echo "| Running Natively on a Phi    |"
+echo "+------------------------------+"
+
+    #ssh $aphi "$MPI_RUN_PHI $envhost2 -n 4 $CODE_TOP/hello.mic"
+    # The following hangs the nodes
+    #ssh $aphi "$MPI_RUN_PHI -n 4 -hostfile $PbsPhis $CODE_TOP/hello.mic"
+    #sleep 2; wait
+    #exit
+echo "+------------------------------+"
+echo "| Running on a Host + 2 Phis   |"
+echo "+------------------------------+"
+echo "Using hostnames"
+
+#I_MPI_DAPL_PROVIDER_LIST=<primary provider>[,<local secondary provider> [,<remote secondary provider>]]
+# DAPL,scif,CCL-direct
+#<primary provider>-          CCL-direct -> ofa-v2-mlx4_0-1u >
+#<local secondary provider>-  IBSCIF	 -> ofa-v2-scif0
+#<remote secondary provider>- CCL-proxy	 -> ofa-v2-mcm-1
+#
+# Default
+# I_MPI_DAPL_PROVIDER_LIST=ofa-v2-mlx4_0-1u,ofa-v2-scif0,ofa-v2-mcm-1
+envhost="$envhost0"
+envphi="$envphi0"
+envhost="-genv I_MPI_DEBUG 2"
+envphi="-genv I_MPI_DEBUG 2"
+
+
+
+    #export I_MPI_DEBUG=5
+    #$MPI_RUN $envhost -n 1 -host $ahost $CODE_TOP/hello \
+    #       : $envphi -n 1 -host $aphi  $CODE_TOP/hello.mic \
+    #       : $envphi -n 1 -host $bphi  $CODE_TOP/hello.mic \
+    echo $aphi
+    echo $bphi
+    echo $ahost
+    echo $bhost
+    sleep 2; wait
+    which mpirun
+    mpiifort --version
+     mpirun \
+           $envhost -n 10 -host smic002 $CODE_TOP/hello \
+         : $envhost -n 10 -host smic003 $CODE_TOP/hello \
+         : $envphi -n 1 -host smic002p-mic0  $CODE_TOP/hello.mic \
+         : $envphi -n 1 -host smic002p-mic1  $CODE_TOP/hello.mic \
+         : $envphi -n 1 -host smic003p-mic0 $CODE_TOP/hello.mic \
+         : $envphi -n 1 -host smic003p-mic1 $CODE_TOP/hello.mic \
+    #mpirun $envhost -n 1 -host $ahost $CODE_TOP/hello \
+    #     : $envhost -n 1 -host $ahost $CODE_TOP/hello \
+    #     : $envphi -n 1 -host $aphi  $CODE_TOP/hello.mic \
+    #     : $envphi -n 1 -host $bphi  $CODE_TOP/hello.mic \
+    #mpirun  -n 1 -host $ahost $CODE_TOP/hello \
+    #     :  -n 1 -host $ahost $CODE_TOP/hello \
+    #     :  -n 1 -host $aphi  $CODE_TOP/hello.mic \
+    #     :  -n 1 -host $bphi  $CODE_TOP/hello.mic \
+
+
+    sleep 2; wait
+exit
+
+#phimpiprefix="./.MIC/"
+phimpipostfix=".mic"
+phimpipinmode="mpd"
+hostmpimicenable="enable"
+hostmpifabric="shm:tcp"  # works
+hostmpifabric="shm:ofa" # ofa fabric is not available and fallback fabric is not enabled
+hostmpifabric="shm:dapl" # DAT: library load failure: libdaplomcm.so.2: cannot open shared object file:
+hostmpidebug="100"
+hostmpimic="1"
+hostenvprefix=""
+#hostmpidevice="ofa-v2-mlx4_0-1s"
+#hostmpidaplproviderlist="ofa-v2-mlx4_0-1,ofa-v2-scif0,ofa-v2-mic0,ofa-v2-ib0,ofa-v2-mlx4_0-1s"
+
+
+envhost="-genv I_MPI_MIC_ENABLE $hostmpimicenable \
+         -genv I_MPI_MIC 1 \
+         -genv I_MPI_DEBUG $hostmpidebug "
+        #  -env I_MPI_MIC $hostmpimic \
+        #-env I_MPI_FABRICS $hostmpifabric \
+         #-genv I_MPI_DAPL_PROVIDER_LIST $hostmpidaplproviderlist \
+         #-genv I_MPI_FABRICS $hostmpifabric \
+         #-genv I_MPI_DEVICE $hostmpidevice"
+
+envphi=" $envhost \
+         -genv LD_LIBRARY_PATH $MIC_LD_LIBRARY_PATH \
+         -genv I_MPI_PIN_MODE $phimpipinmode \
+         -genv I_MPI_POSTFIX $phimpipostfix "
+
+if [ ! -d $phimpiprefix ]; then
+  mkdir $phimpiprefix
+fi
+
+$mpf90 -fc=ifort -mmic hello_mpi.f90 -o $phimpiprefix/hello.mic
+mpiifort -mmic -g -traceback -C hello_mpi.f90 -o $top/hello.mic
+
+#cp -v $top/hello.mic  $top/$phimpiprefix/hello.mic
+
+chmod -v 755 $top/hello 
+chmod -v 755 $top/hello.mic
+
+echo "+-----------------------+"
+echo "| Running on 1-host     |"
+echo  "------------------------"
+
+#export I_MPI_FABRICS=dapl
+#export I_MPI_FABRICS=ofa
+#export I_MPI_OFA_ADAPTER_NAME=mlx4_0
+#export I_MPI_FABRICS=tcp
+#export I_MPI_CHECK_DAPL_PROVIDER_COMPATIBILITY=yes
+
+echo "Host"
+$mpiexechydra  -n 1 -host smic010 $top/hello 
+echo "Phi"
+$mpiexechydra  $envphi -n 1 -host smic010p-mic0  $top/hello.mic
+echo "Host+Phi"
+$mpiexechydra  -n 1 -host smic010 $top/hello \
+     : $envphi -n 1 -host smic010p-mic0  $top/hello.mic
+
+exit
+
+echo "+-----------------------+"
+echo "| Running on 2-hosts    |"
+echo  "------------------------"
+
+echo "2-Similar-Hosts"
+$mpiexechydra -n 1 -host smic003 ./hello : -n 1 -host smic001  ./hello 
+
+echo "2-Different-Hosts"
+eadd="-env I_MPI_FABRICS ofa -env I_MPI_OFA_ADAPTER_NAME mlx4_0"
+$mpiexechydra $eadd -n 1 -host smic004 ./hello : $eadd -n 1 -host smic001  ./hello
+
+echo "2-Similar-Hosts+phis"
+#eadd1="-env I_MPI_FABRICS dapl,tcp"
+$mpiexechydra -n 1 -host smic003  ./hello \
+   :          -n 1 -host smic001  ./hello \
+   : $envphi  -n 1 -host smic001p-mic0 ./hello.mic \
+   : $envphi  -n 1 -host smic001p-mic1 ./hello.mic \
+   : $envphi  -n 1 -host smic003p-mic0 ./hello.mic \
+   : $envphi  -n 1 -host smic003p-mic1 ./hello.mic 
+
+echo " "
+echo "2-Different-Hosts+phis"
+eadd1=" -env I_MPI_OFA_ADAPTER_NAME mlx4_0"
+eadd2="-genv I_MPI_DEVICE rdssm -genv I_MPI_FALLBACK_DEVICE 0 -genv I_MPI_FABRICS shm,tcp,dapl"
+mpirun="mpirun -r ssh -rr "
+$mpirun  -n 1 -host smic001  ./hello \
+   :          -n 1 -host smic004  ./hello \
+   : $envphi  -n 1 -host smic001p-mic0 ./hello.mic \
+   : $envphi  -n 1 -host smic001p-mic1 ./hello.mic \
+   : $envphi  -n 1 -host smic003p-mic0 ./hello.mic \
+   : $envphi  -n 1 -host smic003p-mic1 ./hello.mic \
+
+
+exit
+#$mpiexechydra -env I_MPI_OFA_ADAPTER_NAME mlx4_0 -perhost 1 -host smic002,smic001  ./hello 
+
+#$mpiexechydra -n 1 $envphi -host smic001p-mic0 ./hello
+#exit
+sleep 2
+
+echo "+--------------------------+"
+echo "| Running on 1-host+2-phis |"
+echo  "---------------------------"
+
+echo "Run over scif"
+#export I_MPI_FABRICS=dapl
+#export I_MPI_OFA_ADAPTER_NAME=scif0
+#export I_MPI_FABRICS=ofa
+#export I_MPI_OFA_ADAPTER_NAME=mlx4_0
+
+#comm="$mpiexechydra -n 2 -host smic001,smic002 ./hello : $envphi -n 2 -host smic001p-mic0 ./hello"
+comm="$mpiexechydra -n 2 -host smic001 ./hello \
+          : $envphi -n 2 -host smic001p-mic0 ./hello  \
+          : $envphi -n 2 -host smic001p-mic1 ./hello "
+
+#                    -n 2 -host smic002 ./hello : $envphi -n 2 -host smic002p-mic1,smic002p-mic0 ./hello "
+echo $comm
+$comm
+sleep 3
+
+echo "+--------------------------+"
+echo "| Running on 2-host+4-phis |"
+echo  "---------------------------"
+
+
+export I_MPI_MIC=1
+export I_MPI_MIC_ENABLE="enable"
+comm="$mpiexechydra -n 2 -host smic001,smic003 ./hello \
+          : $envphi -n 1 -host smic001p-mic0 ./hello.mic  \
+          : $envphi -n 1 -host smic001p-mic1 ./hello.mic \
+                    -n 1 -host smic003 ./hello \
+          : $envphi -n 1 -host smic003p-mic0 ./hello.mic  \
+          : $envphi -n 1 -host smic003p-mic1 ./hello.mic "
+
+
+#                    -n 2 -host smic002 ./hello : $envphi -n 2 -host smic002p-mic1,smic002p-mic0 ./hello "
+echo $comm
+$comm
+sleep 3
+exit
