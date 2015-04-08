@@ -524,7 +524,8 @@ end module lanczos_stuff
     !mrow=  99999_i18
     rdel= 1_i18
     cdel= 1_i18
-    mrow= (nproc*ntd)*10000_i18 -1_i18
+    !mrow= (nproc*ntd)*10000_i18 -1_i18
+    mrow= (nproc*ntd)*1000_i18 -1_i18
     ! cdel*nproc: so max_block is divisible by cdel
     !print *, mrow
 
