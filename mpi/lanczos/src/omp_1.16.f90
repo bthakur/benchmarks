@@ -525,7 +525,7 @@ end module lanczos_stuff
     rdel= 1_i18
     cdel= 1_i18
     !mrow= (nproc*ntd)*10000_i18 -1_i18
-    mrow= (nproc*ntd)*1000_i18 -1_i18
+    mrow= (nproc*ntd)*10000_i18 -1_i18
     ! cdel*nproc: so max_block is divisible by cdel
     !print *, mrow
 
@@ -536,7 +536,7 @@ end module lanczos_stuff
     !Call MPI_Barrier(MPI_COMM_WORLD, mpierr)
     if (rank==0) &
     write(6,*)"Mrow:max_block", mrow,max_block
-    iter_lanczos=5
+    iter_lanczos=100
     !call lanczos_matvec
     if (rank==0) &
     Write(6,*)'Entering main', rank
