@@ -8,11 +8,17 @@ end module set_precision
 
   module time
 
+    use set_precision
     implicit none
+    !
+    real(kind=dp)      :: r_mem
+    integer(kind=i18)  :: j_mem, i_mem
+
     integer, save :: t_m, t_n, t_o
     integer, save :: val0(8), val1(8), val2(8)   
     real, save :: etime1(2), etime2(2), tresult
     real, save :: t0, t1, t2, t3 ! t4, tcpu1, tcpu2, twall1, twall2
+
 
     real, save :: tloop_beg_dat, tloop_beg_mul, tloop_beg_snd, tloop_beg_cpy, &
                   tloop_beg_alp, tloop_beg_bet, tloop_beg_swp, tloop_beg_mv
