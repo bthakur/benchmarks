@@ -246,7 +246,7 @@ TotalCores=$cores
 ThdsPerCore=$OMP_NUM_THREADS
 #---
 
-export OMP_NUM_THREADS
+export OMP_NUM_THREADS=$OMP_NUM_THREADS
 
 $runstring -mca plm_tm_verbose 1 hostname | tee $Hs.n$nodes.pre
 $runstring $codetop/bin/$Hs.lanczos |tee $Hs.n$nodes.p$nmpi.omp$OMP_NUM_THREADS.N${N}e6.D100
