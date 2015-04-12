@@ -24,7 +24,7 @@
                           row_start,row_end,&
                           col_start, col_end;
     integer(kind=i18), allocatable  :: &
-                         row_ini(:), row_fin(:)
+                          row_ini(:), row_fin(:)
 
 ! Timing variables
     !real :: t0, t1, t2, t3, tcpu
@@ -517,6 +517,7 @@ end module lanczos_stuff
 
     !$omp parallel
     ntd = omp_get_num_threads();
+    maxthds =  omp_get_max_threads();
     if (rank==0) &
     call system('hostname')
     !$omp end parallel
@@ -526,8 +527,12 @@ end module lanczos_stuff
     !mrow=  99999_i18
     rdel= 100_i18
     cdel= 100_i18
-    !mrow= (nproc*ntd)*10000_i18 -1_i18
-    mrow= (nproc*ntd)*200000_i18 -1_i18
+    !mrow= (nproc*ntd)*100000_i18 -1_i18
+    ! For mem per node to increase
+    mrow= (nproc*ntd)*1000000_i18 -1_i18
+    !
+    ! For mem per node to remain constant use mpi_per_node
+    mrow= (maxthds/ntd)*1000000_i18 -1_i18
     !
     !4[bytesperint] * 3[arrays]G per mpi process
     r_mem= (12_i18*mrow)/(1024_i18*1024_i18)

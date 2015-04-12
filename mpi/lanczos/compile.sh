@@ -3,7 +3,7 @@
 # +-------------------+
 #  Nodes: TotalNodes
 # +-------------------+
-  export nodes=4
+  export nodes=9
   export core_per_node=8
 
 # +-------------------+

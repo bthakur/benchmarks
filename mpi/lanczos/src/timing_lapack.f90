@@ -59,6 +59,7 @@ end module set_precision
     !integer OMP_GET_THREAD_NUM, OMP_GET_NUM_THREADS
     integer tid !, OMP_GET_THREAD_NUM
     integer ntd !, OMP_GET_NUM_PROCS, OMP_get_num_threads
+    integer maxthds !  omp_get_max_threads
     integer iter
 
   end module mpi_stuff
