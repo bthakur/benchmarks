@@ -522,10 +522,13 @@ end module lanczos_stuff
 
     !mrow=369999909999_i18 ! (0:mrow) works > 256 processors
     !mrow=  99999_i18
-    rdel= 1_i18
-    cdel= 1_i18
+    rdel= 100_i18
+    cdel= 100_i18
     !mrow= (nproc*ntd)*10000_i18 -1_i18
-    mrow= (nproc*ntd)*10000_i18 -1_i18
+    mrow= (nproc*ntd)*100000_i18 -1_i18
+    !
+    !4[bytesperint] * 3[arrays]G per mpi process
+    r_mem= (12_i18*mrow)/(1024_i18*1024_i18)
     ! cdel*nproc: so max_block is divisible by cdel
     !print *, mrow
 
@@ -536,10 +539,13 @@ end module lanczos_stuff
     !Call MPI_Barrier(MPI_COMM_WORLD, mpierr)
     if (rank==0) &
     write(6,*)"Mrow:max_block", mrow,max_block
+    if (rank==0) &
+    write(6,*)"MemoryMB:per mpi", r_mem
+    !
     iter_lanczos=100
     !call lanczos_matvec
-    if (rank==0) &
-    Write(6,*)'Entering main', rank
+    !if (rank==0) &
+    !Write(6,*)'Entering main', rank
 
     !stop
 ! Papi profiling
@@ -573,6 +579,9 @@ end module lanczos_stuff
        !write(*,*)'Info',info
        !write(*,'("Eigs",2x, 5(f10.3,x))')alpha(1:iter_lanczos)
        !call system('matlab -nodisplay -r  gen_lanczos && quit')
+    call system('free -g')
+    call system('sar -r 1 5')
+    call system('pstree -ap $(echo $$)')
     end if
   end if
 
